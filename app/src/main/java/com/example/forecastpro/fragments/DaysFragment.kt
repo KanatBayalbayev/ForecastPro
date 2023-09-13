@@ -66,6 +66,61 @@ class DaysFragment : Fragment() {
                 "",
                 ""
             ),
+            DayModel(
+                "",
+                "Sep, 14",
+                "Thursday",
+                "",
+                "",
+                "20",
+                "",
+                "",
+                ""
+            ),
+            DayModel(
+                "",
+                "Sep, 14",
+                "Thursday",
+                "",
+                "",
+                "20",
+                "",
+                "",
+                ""
+            ),
+            DayModel(
+                "",
+                "Sep, 14",
+                "Thursday",
+                "",
+                "",
+                "20",
+                "",
+                "",
+                ""
+            ),
+            DayModel(
+                "",
+                "Sep, 14",
+                "Thursday",
+                "",
+                "",
+                "20",
+                "",
+                "",
+                ""
+            ),
+            DayModel(
+                "",
+                "Sep, 14",
+                "Thursday",
+                "",
+                "",
+                "20",
+                "",
+                "",
+                ""
+            ),
         )
         weatherAdapter.submitList(list)
     }
