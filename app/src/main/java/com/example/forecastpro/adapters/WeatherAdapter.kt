@@ -8,24 +8,28 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
+import com.example.forecastpro.pojo.CurrentDay
+import com.example.forecastpro.pojo.Forecastday
+import com.squareup.picasso.Picasso
 
-class WeatherAdapter : ListAdapter<DayModel, WeatherAdapter.ViewHolder>(Comparator()) {
+class WeatherAdapter : ListAdapter<Forecastday, WeatherAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = DayWeatherBinding.bind(view)
-        fun bind(day: DayModel) = with(binding) {
-            dayName.text = day.day
-            dateDay.text = day.date
-            temperature.text = day.maxTemp
+        fun bind(day: Forecastday) = with(binding) {
+            dayName.text = day.getDayOfWeek()
+            dateDay.text = day.formatDate()
+            temperature.text = "${day.day.maxtempC.toInt().toString()}°"
+            Picasso.get().load("https:${day.day.condition.icon}").into(icon)
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<DayModel>() {
-        override fun areItemsTheSame(oldItem: DayModel, newItem: DayModel): Boolean {
+    class Comparator : DiffUtil.ItemCallback<Forecastday>() {
+        override fun areItemsTheSame(oldItem: Forecastday, newItem: Forecastday): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: DayModel, newItem: DayModel): Boolean {
+        override fun areContentsTheSame(oldItem: Forecastday, newItem: Forecastday): Boolean {
             return oldItem == newItem
         }
 

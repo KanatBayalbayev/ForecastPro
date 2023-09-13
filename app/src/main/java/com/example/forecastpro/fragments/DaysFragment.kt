@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.R
 import com.example.forecastpro.adapters.DayModel
 import com.example.forecastpro.adapters.WeatherAdapter
@@ -12,14 +14,15 @@ import com.example.forecastpro.databinding.FragmentDaysBinding
 
 
 class DaysFragment : Fragment() {
-
+    private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentDaysBinding
     private lateinit var weatherAdapter: WeatherAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = FragmentDaysBinding.inflate(inflater,container, false)
         return binding.root
     }
@@ -32,97 +35,10 @@ class DaysFragment : Fragment() {
     private fun attachRecyclerView(){
         weatherAdapter = WeatherAdapter()
         binding.recyclerView.adapter = weatherAdapter
-        val list = listOf(
-            DayModel(
-                "",
-                "Sep, 12",
-                "Tuesday",
-                "",
-                "",
-                "25",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 13",
-                "Wednesday",
-                "",
-                "",
-                "35",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 14",
-                "Thursday",
-                "",
-                "",
-                "20",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 14",
-                "Thursday",
-                "",
-                "",
-                "20",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 14",
-                "Thursday",
-                "",
-                "",
-                "20",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 14",
-                "Thursday",
-                "",
-                "",
-                "20",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 14",
-                "Thursday",
-                "",
-                "",
-                "20",
-                "",
-                "",
-                ""
-            ),
-            DayModel(
-                "",
-                "Sep, 14",
-                "Thursday",
-                "",
-                "",
-                "20",
-                "",
-                "",
-                ""
-            ),
-        )
-        weatherAdapter.submitList(list)
+        viewModel.currentWeather.observe(viewLifecycleOwner){
+            val list = it.listOfDays
+            weatherAdapter.submitList(list)
+        }
     }
 
 

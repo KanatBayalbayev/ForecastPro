@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:backgroundTint="@color/background"
     app:cardCornerRadius="12dp"
-    app:cardUseCompatPadding="true"
+    android:layout_marginTop="10dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +38,7 @@
             android:textColor="@color/white"
             android:textSize="42sp"
             tools:text="32°"
-            app:layout_constraintStart_toEndOf="@+id/dayName"
+            android:layout_marginEnd="50dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/icon"
@@ -47,9 +47,10 @@
 
         <ImageView
             android:id="@+id/icon"
+            android:contentDescription="@string/iconweather"
             android:src="@mipmap/ic_launcher"
 
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="6dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
