@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.R
 import com.example.forecastpro.adapters.ViewPageAdapter
 import com.example.forecastpro.databinding.FragmentMainBinding
@@ -17,6 +19,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 
 class MainFragment : Fragment() {
+    private lateinit var viewModel: MainViewModel
 
     private val listOfFragments = listOf(
         DaysFragment.newInstance(),
@@ -33,7 +36,8 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,8 +51,8 @@ class MainFragment : Fragment() {
     private fun attachAdapterToViewPager() {
         val adapter = ViewPageAdapter(activity as FragmentActivity, listOfFragments)
         binding.viewPager.adapter = adapter
-        TabLayoutMediator(binding.tabLayout, binding.viewPager){
-            tab, position -> tab.text = listOfTabs[position]
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = listOfTabs[position]
         }.attach()
     }
 
