@@ -25,19 +25,16 @@ class MainViewModel: ViewModel() {
     val currentWeather: LiveData<CurrentDay>
         get() = _currentWeather
 
-    private val _listDays = MutableLiveData<List<Forecastday>>()
-    val listDays: LiveData<List<Forecastday>>
-        get() = _listDays
-
     init {
         loadData()
     }
-    fun loadData(){
+    private fun loadData(){
         val disposable = ApiClient.getApiService().getData()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 _currentWeather.value = getCurrentDay(it)
+
                 Log.d("MainViewModel", it.toString())
             },{
                 Log.d("MainViewModel", it.message.toString())
@@ -69,7 +66,6 @@ class MainViewModel: ViewModel() {
             dayName,
             dateDay,
             listDays,
-            listHours
         )
     }
 

@@ -35,7 +35,7 @@ class DaysFragment : Fragment() {
         binding.recyclerView.adapter = daysAdapter
         viewModel.currentWeather.observe(viewLifecycleOwner){
             val list = it.listOfDays
-//            daysAdapter.submitList(list)
+            daysAdapter.submitList(list)
         }
     }
 
