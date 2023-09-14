@@ -3,9 +3,7 @@ package com.example.forecastpro.pojo
 
 import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 data class Hour(
@@ -109,18 +107,16 @@ data class Hour(
     @Expose
     val windchillF: Double
 ) {
-    fun getTimeFromDateTime(): String {
-        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        val dateTime = LocalDateTime.parse(time, inputFormat)
-        val time = dateTime.toLocalTime()
-        val outputFormat = DateTimeFormatter.ofPattern("HH:mm")
-        return time.format(outputFormat)
-    }
-    fun formatDate(): String {
-        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
-        val outputFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.ENGLISH)
+    fun getDateFromDateTime(): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)
+        val outputFormat = SimpleDateFormat("MMM dd", Locale.US)
+        val dateRes = inputFormat.parse(time)
 
-        val localDate = LocalDate.parse(time, inputFormat)
-        return localDate.format(outputFormat)
+
+        return dateRes?.let { outputFormat.format(it) }.toString()
+    }
+    fun getHours(): String {
+        val parts = time.split(" ")
+        return parts.getOrNull(1).toString()
     }
 }

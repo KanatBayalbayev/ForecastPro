@@ -66,6 +66,7 @@ class MainViewModel: ViewModel() {
             dayName,
             dateDay,
             listDays,
+            listHours
         )
     }
 

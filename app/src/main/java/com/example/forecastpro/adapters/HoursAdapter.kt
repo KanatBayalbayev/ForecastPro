@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.forecastpro.R
-import com.example.forecastpro.databinding.DayWeatherBinding
 import com.example.forecastpro.databinding.HourWeatherBinding
-import com.example.forecastpro.pojo.Forecastday
 import com.example.forecastpro.pojo.Hour
 import com.squareup.picasso.Picasso
 
@@ -18,8 +16,8 @@ class HoursAdapter : ListAdapter<Hour, HoursAdapter.ViewHolder>(Comparator()) {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = HourWeatherBinding.bind(view)
         fun bind(hour: Hour) = with(binding) {
-            hourName.text = hour.getTimeFromDateTime()
-            dateDay.text = hour.formatDate()
+            hourName.text = hour.getHours()
+            dateDay.text = hour.getDateFromDateTime()
             temperature.text  = "${hour.tempC.toInt()}°"
             Picasso.get().load("https:${hour.condition.icon}").into(icon)
 
