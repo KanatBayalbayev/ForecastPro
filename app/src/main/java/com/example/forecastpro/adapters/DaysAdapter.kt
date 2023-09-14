@@ -8,18 +8,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
-import com.example.forecastpro.pojo.CurrentDay
 import com.example.forecastpro.pojo.Forecastday
 import com.squareup.picasso.Picasso
 
-class WeatherAdapter : ListAdapter<Forecastday, WeatherAdapter.ViewHolder>(Comparator()) {
+class DaysAdapter : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = DayWeatherBinding.bind(view)
         fun bind(day: Forecastday) = with(binding) {
             dayName.text = day.getDayOfWeek()
             dateDay.text = day.formatDate()
-            temperature.text = "${day.day.maxtempC.toInt().toString()}°"
+            temperature.text = "${day.day.maxtempC.toInt()}°"
             Picasso.get().load("https:${day.day.condition.icon}").into(icon)
         }
     }

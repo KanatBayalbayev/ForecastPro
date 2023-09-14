@@ -2,7 +2,6 @@ package com.example.forecastpro.fragments
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
-import com.example.forecastpro.R
 import com.example.forecastpro.adapters.ViewPageAdapter
-import com.example.forecastpro.adapters.WeatherAdapter
+import com.example.forecastpro.adapters.DaysAdapter
 import com.example.forecastpro.databinding.FragmentMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
@@ -23,7 +21,6 @@ import com.squareup.picasso.Picasso
 
 class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
-    private lateinit var weatherAdapter: WeatherAdapter
 
     private val listOfFragments = listOf(
         DaysFragment.newInstance(),
@@ -64,9 +61,6 @@ class MainFragment : Fragment() {
             }
 
         }
-//        viewModel.listDays.observe(viewLifecycleOwner) {
-//            Log.d("MainFragment", it.toString())
-//        }
     }
 
 

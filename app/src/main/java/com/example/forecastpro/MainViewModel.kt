@@ -6,18 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.forecastpro.api.ApiClient
 import com.example.forecastpro.pojo.CurrentDay
-import com.example.forecastpro.pojo.Days
 import com.example.forecastpro.pojo.Forecastday
+import com.example.forecastpro.pojo.Hour
 import com.example.forecastpro.pojo.WeatherData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.ArrayList
 import java.util.Locale
 
 class MainViewModel: ViewModel() {
@@ -58,6 +56,7 @@ class MainViewModel: ViewModel() {
         val dayName = getDayOfWeek(data.location.localtime)
         val dateDay = formatDateString(data.location.localtime)
         val listDays = data.forecast.forecastday
+        val listHours = getListOfHours(data)
         return CurrentDay(
             city,
             currentDate,
@@ -69,21 +68,14 @@ class MainViewModel: ViewModel() {
             "",
             dayName,
             dateDay,
-            listDays
+            listDays,
+            listHours
         )
     }
 
-    private fun getListOfDays(data: WeatherData): List<Forecastday>{
-        val listOfDays = data.forecast.forecastday
-        val list = ArrayList<Days>()
-        for (element in listOfDays){
-            val maxTemp = element.day.maxtempC.toInt().toString()
-            val dayName = getDayOfWeek(element.date)
-            val dateDay = formatDateString(element.date)
-            val icon = element.day.condition.icon
-            list.add(Days(dayName = dayName, temperature = maxTemp, date = dateDay, icon = icon))
-        }
-        return listOfDays
+    private fun getListOfHours(data: WeatherData): List<Hour> {
+        val listOfHours = data.forecast.forecastday[0]
+        return listOfHours.hour
     }
 
     private fun formatDate(inputDate: String): String {

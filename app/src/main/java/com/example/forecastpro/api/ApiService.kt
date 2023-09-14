@@ -11,7 +11,7 @@ interface ApiService {
     fun getData(
         @Query(API_KEY) api_key: String = "dd2c1ef1a2c44dc2a6733324231109",
         @Query(QUERY_CITY) city: String = "Almaty",
-        @Query(QUERY_DAYS) days: String = "10",
+        @Query(QUERY_DAYS) days: String = "3",
         @Query(QUERY_AQI) aqi: String = "no",
         @Query(QUERY_ALERTS) alerts: String = "no",
         ): Single<WeatherData>

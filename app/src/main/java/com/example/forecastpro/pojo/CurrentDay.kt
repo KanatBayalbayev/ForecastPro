@@ -11,6 +11,7 @@ data class CurrentDay(
     var maxTemp: String? = null,
     var dayName: String? = null,
     var dateDay: String? = null,
-    var listOfDays: List<Forecastday>? = null
+    var listOfDays: List<Forecastday>? = null,
+    var listOfHours: List<Hour>? = null
 
 )

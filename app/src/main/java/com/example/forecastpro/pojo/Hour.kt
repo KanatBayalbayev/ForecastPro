@@ -3,6 +3,10 @@ package com.example.forecastpro.pojo
 
 import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 data class Hour(
     @SerializedName("chance_of_rain")
@@ -104,4 +108,19 @@ data class Hour(
     @SerializedName("windchill_f")
     @Expose
     val windchillF: Double
-)
+) {
+    fun getTimeFromDateTime(): String {
+        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        val dateTime = LocalDateTime.parse(time, inputFormat)
+        val time = dateTime.toLocalTime()
+        val outputFormat = DateTimeFormatter.ofPattern("HH:mm")
+        return time.format(outputFormat)
+    }
+    fun formatDate(): String {
+        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+        val outputFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.ENGLISH)
+
+        val localDate = LocalDate.parse(time, inputFormat)
+        return localDate.format(outputFormat)
+    }
+}
