@@ -1,7 +1,9 @@
 package com.example.forecastpro.fragments
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +11,28 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
+import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.adapters.ViewPageAdapter
 import com.example.forecastpro.adapters.DaysAdapter
 import com.example.forecastpro.databinding.FragmentMainBinding
+import com.example.forecastpro.pojo.Forecastday
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
 
 
 class MainFragment : Fragment() {
+    private lateinit var fLocationClient: FusedLocationProviderClient
     private lateinit var viewModel: MainViewModel
+    private lateinit var geoCity: String
 
     private val listOfFragments = listOf(
         DaysFragment.newInstance(),
@@ -47,20 +59,56 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
         attachAdapterToViewPager()
-        viewModel.currentWeather.observe(viewLifecycleOwner) {
+        observeWeather()
+        fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+//        getLocation()
+
+
+
+    }
+
+    private fun observeWeather(){
+        viewModel.currentDayWeather.observe(viewLifecycleOwner) {
             with(binding) {
-                date.text = it.date
-                city.text = it.cityName
+                date.text = it.currentDate
+                city.text = it.name
                 condition.text = it.condition
                 Picasso.get().load("https:${it.icon}").into(iconWeather)
 
-                currentTemp.text = "${it.currentTemperature}°"
+                currentTemp.text = "${it.currentTemp}°"
 
                 wind.text = "${it.wind}km/h"
                 humidity.text = "${it.humidity}%"
             }
+            Log.d("MainFragment", it.toString())
+        }
+        binding.syncButton.setOnClickListener {
+            viewModel.loadData("Paris")
+
 
         }
+
+    }
+
+
+    private fun getLocation(){
+        val ct = CancellationTokenSource()
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fLocationClient
+            .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, ct.token)
+            .addOnCompleteListener{
+                geoCity = "${it.result.latitude},${it.result.longitude}"
+                Log.d("Main",  "${it.result.latitude},${it.result.longitude}")
+            }
     }
 
 
@@ -90,4 +138,5 @@ class MainFragment : Fragment() {
         @JvmStatic
         fun newInstance() = MainFragment()
     }
+
 }

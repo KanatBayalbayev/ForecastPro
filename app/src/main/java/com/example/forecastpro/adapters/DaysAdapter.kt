@@ -6,29 +6,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
+import com.example.forecastpro.pojo.Days
 import com.example.forecastpro.pojo.Forecastday
 import com.squareup.picasso.Picasso
 
-class DaysAdapter : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator()) {
+class DaysAdapter() : ListAdapter<Days, DaysAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = DayWeatherBinding.bind(view)
-        fun bind(day: Forecastday) = with(binding) {
-            dayName.text = day.getDayOfWeek()
-            dateDay.text = day.formatDate()
-            temperature.text = "${day.day.maxtempC.toInt()}°"
-            Picasso.get().load("https:${day.day.condition.icon}").into(icon)
+        fun bind(day: Days) = with(binding) {
+            dayName.text = day.dayName
+            dateDay.text = day.date
+            temperature.text = "${day.temperature}°"
+            Picasso.get().load("https:${day.icon}").into(icon)
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<Forecastday>() {
-        override fun areItemsTheSame(oldItem: Forecastday, newItem: Forecastday): Boolean {
+    class Comparator : DiffUtil.ItemCallback<Days>() {
+        override fun areItemsTheSame(oldItem: Days, newItem: Days): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Forecastday, newItem: Forecastday): Boolean {
+        override fun areContentsTheSame(oldItem: Days, newItem: Days): Boolean {
             return oldItem == newItem
         }
 
@@ -44,6 +46,7 @@ class DaysAdapter : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        holder.bind(item)
     }
 }

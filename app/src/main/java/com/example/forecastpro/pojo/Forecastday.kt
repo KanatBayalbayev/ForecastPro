@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -42,11 +41,16 @@ data class Forecastday(
             else -> "Unknown"
         }
     }
-    fun formatDate(): String {
-        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
-        val outputFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.ENGLISH)
 
-        val localDate = LocalDate.parse(date, inputFormat)
-        return localDate.format(outputFormat)
+    fun formatMonthAndDay(): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val date = LocalDate.parse(date, formatter)
+        return date.format(DateTimeFormatter.ofPattern("MMM, dd", Locale.US))
+    }
+    private fun getMonth(inputDate: String): String {
+        val parts = inputDate.split(" ")
+        val month = parts.getOrNull(0).toString()
+        val day = parts.getOrNull(1).toString()
+        return "$month $day"
     }
 }

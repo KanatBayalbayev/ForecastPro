@@ -1,14 +1,17 @@
 package com.example.forecastpro.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
+import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.adapters.DaysAdapter
 import com.example.forecastpro.databinding.FragmentDaysBinding
+import com.example.forecastpro.pojo.Forecastday
 
 
 class DaysFragment : Fragment() {
@@ -33,9 +36,10 @@ class DaysFragment : Fragment() {
     private fun attachRecyclerView(){
         daysAdapter = DaysAdapter()
         binding.recyclerView.adapter = daysAdapter
-        viewModel.currentWeather.observe(viewLifecycleOwner){
-            val list = it.listOfDays
-            daysAdapter.submitList(list)
+        viewModel.daysWeather.observe(viewLifecycleOwner){
+            Log.d("DaysFragment", it.toString())
+            daysAdapter.submitList(it)
+
         }
     }
 
@@ -46,4 +50,5 @@ class DaysFragment : Fragment() {
         @JvmStatic
         fun newInstance() = DaysFragment()
     }
+
 }
