@@ -9,10 +9,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
+import com.example.forecastpro.fragments.DaysFragment
 import com.example.forecastpro.pojo.Forecastday
 import com.squareup.picasso.Picasso
 
-class DaysAdapter(private val context: Context) : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator()) {
+class DaysAdapter(
+    private val listener: DaysFragment,
+    private val context: Context,
+
+    ) : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = DayWeatherBinding.bind(view)
@@ -73,5 +78,8 @@ class DaysAdapter(private val context: Context) : ListAdapter<Forecastday, DaysA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item, context)
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(item)
+        }
     }
 }

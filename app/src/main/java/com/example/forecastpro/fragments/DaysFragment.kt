@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.adapters.DaysAdapter
@@ -15,7 +14,7 @@ import com.example.forecastpro.databinding.FragmentDaysBinding
 import com.example.forecastpro.pojo.Forecastday
 
 
-class DaysFragment : Fragment() {
+class DaysFragment : Fragment(), OnItemClickListener {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentDaysBinding
     private lateinit var daysAdapter: DaysAdapter
@@ -34,13 +33,13 @@ class DaysFragment : Fragment() {
     }
 
     private fun attachRecyclerView(){
-        daysAdapter = DaysAdapter(requireContext())
+        daysAdapter = DaysAdapter(this,requireContext())
         binding.recyclerView.adapter = daysAdapter
         viewModel.currentDayWeather.observe(viewLifecycleOwner){
             val list = it.listOfDays
             daysAdapter.submitList(list)
 
-            Log.d("DaysFragment", it.toString())
+
 
 
         }
@@ -53,6 +52,10 @@ class DaysFragment : Fragment() {
 
         @JvmStatic
         fun newInstance() = DaysFragment()
+    }
+
+    override fun onItemClick(item: Forecastday) {
+        Log.d("DaysFragment", item.date)
     }
 
 }
