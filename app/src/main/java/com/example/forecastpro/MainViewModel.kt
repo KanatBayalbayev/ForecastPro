@@ -8,32 +8,25 @@ import com.example.forecastpro.api.ApiClient
 import com.example.forecastpro.pojo.CurrentDay
 import com.example.forecastpro.pojo.DayWeather
 import com.example.forecastpro.pojo.Days
-import com.example.forecastpro.pojo.Forecastday
 import com.example.forecastpro.pojo.Hour
 import com.example.forecastpro.pojo.WeatherData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.ArrayList
+import java.util.Calendar
 import java.util.Locale
 
 class MainViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    private val _currentWeather = MutableLiveData<CurrentDay>()
-    val currentWeather: LiveData<CurrentDay>
-        get() = _currentWeather
+//    private val _currentWeather = MutableLiveData<CurrentDay>()
+//    val currentWeather: LiveData<CurrentDay>
+//        get() = _currentWeather
 
-    private val _currentDayWeather = MutableLiveData<DayWeather>()
-    val currentDayWeather: LiveData<DayWeather>
-        get() = _currentDayWeather
-
-     val daysWeather = MutableLiveData<List<Days>>()
+    val currentDayWeather = MutableLiveData<CurrentDay>()
+    val daysWeather = MutableLiveData<List<Days>>()
 //    val daysWeather: MutableLiveData<List<Days>>
 //        get() = _daysWeather
 
@@ -47,11 +40,13 @@ class MainViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    _currentDayWeather.value = getDayWeather(it)
-                    daysWeather.value = getDays(it)
+//                    _currentWeather.value = getCurrentDay(it)
+                    currentDayWeather.value = getCurrentDay(it)
+//                    daysWeather.value = getDays(it)
 
 //                    Log.d("MainViewModel", it.toString())
-                    Log.d("MainViewModel", getDays(it).toString())
+//                    Log.d("MainViewModel", getDays(it).toString())
+                    Log.d("MainViewModel", getCurrentDay(it).listOfDays.toString())
                 }, {
                     Log.d("MainViewModel", it.message.toString())
                 })
@@ -59,6 +54,32 @@ class MainViewModel : ViewModel() {
         if (disposable != null) {
             compositeDisposable.add(disposable)
         }
+    }
+    private fun getListOfHours(data: WeatherData): List<Hour> {
+        val listOfHours = data.forecast.forecastday[0]
+        return listOfHours.hour
+    }
+    private fun getDays(data: WeatherData): List<DayWeather>{
+        val arrayOfDays = data.forecast.forecastday
+        val list = ArrayList<DayWeather>()
+        val name = data.location.name
+        val wind = data.current.windKph.toInt().toString()
+        val humidity = data.current.humidity.toString()
+        for (day in arrayOfDays){
+            val dayItem = DayWeather(
+                name,
+                day.date,
+                "",
+                day.day.condition.text,
+                day.day.condition.icon,
+                wind,
+                humidity,
+                day.day.maxtempC.toInt().toString(),
+                day.hour.toString()
+            )
+            list.add(dayItem)
+        }
+        return list
     }
 
     private fun getDayWeather(data: WeatherData): DayWeather {
@@ -69,23 +90,34 @@ class MainViewModel : ViewModel() {
         val icon = data.current.condition.icon
         val wind = data.current.windKph.toString()
         val humidity = data.current.humidity.toString()
-        return DayWeather(city, currentDate, currentTemp, condition, icon, wind, humidity)
+
+        return DayWeather(
+            city,
+            currentDate,
+            currentTemp,
+            condition,
+            icon,
+            wind,
+            humidity,
+            "",
+            ""
+        )
     }
 
-    private fun getDays(data: WeatherData): List<Days> {
-        val listOfDays = data.forecast.forecastday
-        val list = ArrayList<Days>()
-        for (element in listOfDays) {
-            val dayName = element.date
-            val date = element.date
-            val temperature = element.day.maxtempC.toInt().toString()
-            val icon = element.day.condition.icon
-            list.add(
-                Days(dayName, date, temperature, icon)
-            )
-        }
-        return list
-    }
+//    private fun getDays(data: WeatherData): List<Days> {
+//        val listOfDays = data.forecast.forecastday
+//        val list = ArrayList<Days>()
+//        for (element in listOfDays) {
+//            val dayName = getDayName(element.date)
+//            val date = getMonthAndDay(element.date)
+//            val temperature = element.day.maxtempC.toInt().toString()
+//            val icon = element.day.condition.icon
+//            list.add(
+//                Days(dayName, date, temperature, icon)
+//            )
+//        }
+//        return list
+//    }
 
 
     private fun getCurrentDay(data: WeatherData): CurrentDay {
@@ -117,9 +149,32 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    private fun getListOfHours(data: WeatherData): List<Hour> {
-        val listOfHours = data.forecast.forecastday[0]
-        return listOfHours.hour
+
+
+    private fun getDayName(input: String): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = sdf.parse(input)
+
+        val calendar = Calendar.getInstance()
+        if (date != null) {
+            calendar.time = date
+        }
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+        val daysOfWeek = arrayOf(
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        )
+
+        return daysOfWeek[dayOfWeek - 1]
+    }
+
+    private fun getMonthAndDay(input: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("MMM, dd", Locale.getDefault())
+
+        val date = inputFormat.parse(input)
+        return date?.let { outputFormat.format(it) }.toString()
+
     }
 
     private fun formatDate(inputDate: String): String {

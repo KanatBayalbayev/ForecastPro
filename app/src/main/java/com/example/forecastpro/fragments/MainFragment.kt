@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.OnItemClickListener
@@ -31,7 +32,7 @@ import com.squareup.picasso.Picasso
 
 class MainFragment : Fragment() {
     private lateinit var fLocationClient: FusedLocationProviderClient
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var geoCity: String
 
     private val listOfFragments = listOf(
@@ -50,7 +51,6 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,6 +61,7 @@ class MainFragment : Fragment() {
         attachAdapterToViewPager()
         observeWeather()
         fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
 //        getLocation()
 
 
@@ -70,22 +71,20 @@ class MainFragment : Fragment() {
     private fun observeWeather(){
         viewModel.currentDayWeather.observe(viewLifecycleOwner) {
             with(binding) {
-                date.text = it.currentDate
-                city.text = it.name
+                date.text = it.date
+                city.text = it.cityName
                 condition.text = it.condition
                 Picasso.get().load("https:${it.icon}").into(iconWeather)
 
-                currentTemp.text = "${it.currentTemp}°"
+                currentTemp.text = "${it.currentTemperature}°"
 
-                wind.text = "${it.wind}km/h"
-                humidity.text = "${it.humidity}%"
+                wind.text = "${it.wind}"
+                humidity.text = "${it.humidity}"
             }
             Log.d("MainFragment", it.toString())
         }
         binding.syncButton.setOnClickListener {
-            viewModel.loadData("Paris")
-
-
+            viewModel.loadData("Oslo")
         }
 
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.OnItemClickListener
@@ -15,7 +16,7 @@ import com.example.forecastpro.pojo.Forecastday
 
 
 class DaysFragment : Fragment() {
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentDaysBinding
     private lateinit var daysAdapter: DaysAdapter
 
@@ -23,7 +24,6 @@ class DaysFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         binding = FragmentDaysBinding.inflate(inflater,container, false)
         return binding.root
     }
@@ -36,11 +36,15 @@ class DaysFragment : Fragment() {
     private fun attachRecyclerView(){
         daysAdapter = DaysAdapter()
         binding.recyclerView.adapter = daysAdapter
-        viewModel.daysWeather.observe(viewLifecycleOwner){
+        viewModel.currentDayWeather.observe(viewLifecycleOwner){
+            val list = it.listOfDays
+            daysAdapter.submitList(list)
+
             Log.d("DaysFragment", it.toString())
-            daysAdapter.submitList(it)
+
 
         }
+
     }
 
 

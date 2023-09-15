@@ -13,24 +13,24 @@ import com.example.forecastpro.pojo.Days
 import com.example.forecastpro.pojo.Forecastday
 import com.squareup.picasso.Picasso
 
-class DaysAdapter() : ListAdapter<Days, DaysAdapter.ViewHolder>(Comparator()) {
+class DaysAdapter() : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = DayWeatherBinding.bind(view)
-        fun bind(day: Days) = with(binding) {
-            dayName.text = day.dayName
+        fun bind(day: Forecastday) = with(binding) {
+            dayName.text = day.date
             dateDay.text = day.date
-            temperature.text = "${day.temperature}°"
-            Picasso.get().load("https:${day.icon}").into(icon)
+            temperature.text = "${day.day.maxtempC}°"
+            Picasso.get().load("https:${day.day.condition.icon}").into(icon)
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<Days>() {
-        override fun areItemsTheSame(oldItem: Days, newItem: Days): Boolean {
+    class Comparator : DiffUtil.ItemCallback<Forecastday>() {
+        override fun areItemsTheSame(oldItem: Forecastday, newItem: Forecastday): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Days, newItem: Days): Boolean {
+        override fun areContentsTheSame(oldItem: Forecastday, newItem: Forecastday): Boolean {
             return oldItem == newItem
         }
 
