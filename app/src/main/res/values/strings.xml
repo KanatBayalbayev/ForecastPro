@@ -3,11 +3,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="iconweather">iconWeather</string>
-    <string name="temp">Temperature</string>
+    <string name="temp">Max/Min</string>
     <string name="wind">Wind</string>
     <string name="humidity">Humidity</string>
     <string name="syncbutton">syncButton</string>
     <string name="searchbutton">searchButton</string>
     <string name="days">DAYS</string>
     <string name="hours">HOURS</string>
+    <string name="signPlus">+</string>
+    <string name="lastUpdate">Updated: %s</string>
+    <string name="currentTemperature">%s°</string>
+    <string name="maxMin">%s°/%s°</string>
+    <string name="windKm">%skm/h</string>
+    <string name="humidityPercent">%s%%</string>
+    <string name="maxMinTemp">%s°/%s°</string>
+    <string name="signMinus">-</string>
 </resources>

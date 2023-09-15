@@ -8,16 +8,17 @@
     tools:context=".fragments.MainFragment">
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/lastUpdateDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:text="@string/lastUpdate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Sep 12, 11:36" />
+        tools:text="Updated: Sep 12, 11:36" />
 
     <TextView
         android:id="@+id/city"
@@ -30,7 +31,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/lastUpdateDate"
         tools:text="San Fransisco" />
 
     <TextView
@@ -45,14 +46,52 @@
         app:layout_constraintTop_toBottomOf="@+id/city"
         tools:text="Sunny" />
 
+    <TextView
+        android:id="@+id/signPlus"
+        android:text="@string/signPlus"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/currentTemperature"
+        app:layout_constraintTop_toBottomOf="@+id/condition"
+        app:layout_constraintBottom_toTopOf="@+id/windLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/signMinus"
+        android:text="@string/signMinus"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/currentTemperature"
+        app:layout_constraintTop_toBottomOf="@+id/condition"
+        app:layout_constraintBottom_toTopOf="@+id/windLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/currentTemperature"
+        android:textSize="54sp"
+        android:textColor="@color/white"
+        android:text="@string/currentTemperature"
+        tools:text = "32°"
+        app:layout_constraintEnd_toStartOf="@+id/iconWeather"
+        app:layout_constraintTop_toBottomOf="@+id/condition"
+        app:layout_constraintBottom_toTopOf="@+id/windLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/iconWeather"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="50dp"
         android:contentDescription="@string/iconweather"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/condition"
         tools:src="@mipmap/ic_launcher" />
 
@@ -60,12 +99,12 @@
         android:id="@+id/syncButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
         android:background="@null"
         android:contentDescription="@string/syncbutton"
         android:src="@android:drawable/ic_popup_sync"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lastUpdateDate"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@android:color/darker_gray" />
 
@@ -73,12 +112,12 @@
         android:id="@+id/searchButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="22dp"
         android:background="@null"
         android:contentDescription="@string/searchbutton"
         android:src="@android:drawable/ic_menu_search"
-        app:layout_constraintEnd_toEndOf="@+id/syncButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--    Temperature-->
@@ -95,16 +134,17 @@
         app:layout_constraintTop_toBottomOf="@id/iconWeather" />
 
     <TextView
-        android:id="@+id/currentTemp"
+        android:id="@+id/maxMinTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:text="@string/maxMin"
         app:layout_constraintEnd_toEndOf="@+id/tempLabel"
         app:layout_constraintStart_toStartOf="@+id/tempLabel"
         app:layout_constraintTop_toBottomOf="@+id/tempLabel"
-        tools:text="32°" />
+        tools:text="+32°/+12°" />
 
     <!--    Wind-->
     <TextView
@@ -126,10 +166,11 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:text="@string/windKm"
         app:layout_constraintEnd_toEndOf="@+id/windLabel"
         app:layout_constraintStart_toStartOf="@+id/windLabel"
         app:layout_constraintTop_toBottomOf="@+id/windLabel"
-        tools:text="10km/h°" />
+        tools:text="10km/h" />
 
     <!--    Humidity-->
     <TextView
@@ -152,6 +193,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:text="@string/humidityPercent"
         app:layout_constraintEnd_toEndOf="@+id/humidityLabel"
         app:layout_constraintStart_toStartOf="@+id/humidityLabel"
         app:layout_constraintTop_toBottomOf="@+id/humidityLabel"

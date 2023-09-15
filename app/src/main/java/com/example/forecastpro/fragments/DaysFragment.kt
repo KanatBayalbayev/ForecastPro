@@ -34,7 +34,7 @@ class DaysFragment : Fragment() {
     }
 
     private fun attachRecyclerView(){
-        daysAdapter = DaysAdapter()
+        daysAdapter = DaysAdapter(requireContext())
         binding.recyclerView.adapter = daysAdapter
         viewModel.currentDayWeather.observe(viewLifecycleOwner){
             val list = it.listOfDays

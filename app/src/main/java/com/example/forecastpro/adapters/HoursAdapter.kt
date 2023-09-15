@@ -18,7 +18,11 @@ class HoursAdapter : ListAdapter<Hour, HoursAdapter.ViewHolder>(Comparator()) {
         fun bind(hour: Hour) = with(binding) {
             hourName.text = hour.getHours()
             dateDay.text = hour.getDateFromDateTime()
-            temperature.text  = "${hour.tempC.toInt()}°"
+            temperature.text = String.format(
+                "%s%s°",
+                if (hour.tempC.toInt() > 0) "+" else "-",
+                hour.tempC.toInt()
+            )
             Picasso.get().load("https:${hour.condition.icon}").into(icon)
 
         }

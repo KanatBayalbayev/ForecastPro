@@ -36,9 +36,10 @@
         <TextView
             android:id="@+id/temperature"
             android:textColor="@color/white"
-            android:textSize="42sp"
+            android:textSize="32sp"
+            android:text="@string/maxMinTemp"
             tools:text="32°"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="10dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/icon"

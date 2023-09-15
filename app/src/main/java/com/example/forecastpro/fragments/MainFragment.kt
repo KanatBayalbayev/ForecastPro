@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.OnItemClickListener
+import com.example.forecastpro.R
 import com.example.forecastpro.adapters.ViewPageAdapter
 import com.example.forecastpro.adapters.DaysAdapter
 import com.example.forecastpro.databinding.FragmentMainBinding
@@ -61,25 +62,33 @@ class MainFragment : Fragment() {
         attachAdapterToViewPager()
         observeWeather()
         fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
-//        getLocation()
-
+        getLocation()
 
 
     }
 
-    private fun observeWeather(){
+    private fun observeWeather() {
         viewModel.currentDayWeather.observe(viewLifecycleOwner) {
             with(binding) {
-                date.text = it.date
+                val lastUpdateString = getString(R.string.lastUpdate)
+                val currentTemperatureString = getString(R.string.currentTemperature)
+                val maxMinString = getString(R.string.maxMin)
+                val windKmString = getString(R.string.windKm)
+                val humidityPercentString = getString(R.string.humidityPercent)
+                lastUpdateDate.text = String.format(lastUpdateString, it.date)
+                signPlus.visibility = if (it.currentTemperature > 0) View.VISIBLE else View.GONE
+                signMinus.visibility = if (it.currentTemperature > 0) View.GONE else View.VISIBLE
+                currentTemperature.text =
+                    String.format(currentTemperatureString, it.currentTemperature)
                 city.text = it.cityName
                 condition.text = it.condition
                 Picasso.get().load("https:${it.icon}").into(iconWeather)
-
-                currentTemp.text = "${it.currentTemperature}°"
-
-                wind.text = "${it.wind}"
-                humidity.text = "${it.humidity}"
+                val maxSign = if (it.maxTemp > 0) "+" else "-"
+                val minSign = if (it.minTemp > 0) "+" else "-"
+                maxMinTemp.text =
+                    String.format("%s%s°/%s%s°", maxSign, it.maxTemp, minSign, it.minTemp)
+                wind.text = String.format(windKmString, it.wind)
+                humidity.text = String.format(humidityPercentString, it.humidity)
             }
             Log.d("MainFragment", it.toString())
         }
@@ -90,7 +99,9 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun getLocation(){
+
+
+    private fun getLocation() {
         val ct = CancellationTokenSource()
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -104,12 +115,11 @@ class MainFragment : Fragment() {
         }
         fLocationClient
             .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, ct.token)
-            .addOnCompleteListener{
+            .addOnCompleteListener {
                 geoCity = "${it.result.latitude},${it.result.longitude}"
-                Log.d("Main",  "${it.result.latitude},${it.result.longitude}")
+                viewModel.loadData(geoCity)
             }
     }
-
 
     private fun attachAdapterToViewPager() {
         val adapter = ViewPageAdapter(activity as FragmentActivity, listOfFragments)
