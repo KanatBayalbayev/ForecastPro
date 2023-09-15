@@ -16,6 +16,7 @@ class MainViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     val currentDayWeather = MutableLiveData<CurrentDay>()
+    val isProgressBar = MutableLiveData<Boolean>()
 
 
     init {
@@ -27,6 +28,9 @@ class MainViewModel : ViewModel() {
             ApiClient.getApiService().getData(city = it)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { isProgressBar.value = true }
+                .doAfterTerminate { isProgressBar.value = false }
+                .doOnError { isProgressBar.value = true }
                 .subscribe({
                     currentDayWeather.value = getCurrentDay(it)
                 }, {

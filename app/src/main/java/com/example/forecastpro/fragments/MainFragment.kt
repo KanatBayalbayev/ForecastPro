@@ -100,6 +100,16 @@ class MainFragment : Fragment() {
             showSearchDialog()
         }
 
+        viewModel.isProgressBar.observe(viewLifecycleOwner){
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.mainContainer.visibility = View.GONE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.mainContainer.visibility = View.VISIBLE
+            }
+        }
+
 
     }
 
