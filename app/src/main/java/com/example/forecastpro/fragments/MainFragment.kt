@@ -1,6 +1,7 @@
 package com.example.forecastpro.fragments
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,6 +49,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private lateinit var pLauncher: ActivityResultLauncher<String>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,13 +95,34 @@ class MainFragment : Fragment() {
             }
             Log.d("MainFragment", it.toString())
         }
-        binding.syncButton.setOnClickListener {
-            viewModel.loadData("Oslo")
+
+        binding.searchButton.setOnClickListener {
+            showSearchDialog()
         }
+
 
     }
 
+    private fun showSearchDialog() {
+        val builder = AlertDialog.Builder(context)
+        val editText = EditText(context)
+        val dialog = builder.create()
+        dialog.setView(editText)
+        dialog.setTitle("City:")
+        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Search") { _, _ ->
+            val userInput = editText.text.toString().trim()
+            viewModel.loadData(userInput)
+            binding.syncButton.setOnClickListener {
+                viewModel.loadData(userInput)
+            }
 
+
+        }
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { _, _ ->
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 
 
     private fun getLocation() {
@@ -118,6 +142,9 @@ class MainFragment : Fragment() {
             .addOnCompleteListener {
                 geoCity = "${it.result.latitude},${it.result.longitude}"
                 viewModel.loadData(geoCity)
+                binding.syncButton.setOnClickListener {
+                    viewModel.loadData(geoCity)
+                }
             }
     }
 
