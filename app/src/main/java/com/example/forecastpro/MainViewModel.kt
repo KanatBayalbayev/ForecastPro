@@ -1,10 +1,12 @@
 package com.example.forecastpro
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.forecastpro.api.ApiClient
 import com.example.forecastpro.pojo.CurrentDay
+import com.example.forecastpro.pojo.Forecastday
 import com.example.forecastpro.pojo.WeatherData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,8 +17,15 @@ import java.util.Locale
 class MainViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    val currentDayWeather = MutableLiveData<CurrentDay>()
-    val isProgressBar = MutableLiveData<Boolean>()
+    private val _currentDayWeather = MutableLiveData<CurrentDay>()
+    val currentDayWeather: LiveData<CurrentDay>
+        get() = _currentDayWeather
+
+    private val _isProgressBar = MutableLiveData<Boolean>()
+    val isProgressBar: LiveData<Boolean>
+        get() = _isProgressBar
+
+    val objForAddition = MutableLiveData<Forecastday>()
 
 
     init {
@@ -28,11 +37,11 @@ class MainViewModel : ViewModel() {
             ApiClient.getApiService().getData(city = it)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { isProgressBar.value = true }
-                .doAfterTerminate { isProgressBar.value = false }
-                .doOnError { isProgressBar.value = true }
+                .doOnSubscribe { _isProgressBar.value = true }
+                .doAfterTerminate { _isProgressBar.value = false }
+                .doOnError { _isProgressBar.value = true }
                 .subscribe({
-                    currentDayWeather.value = getCurrentDay(it)
+                    _currentDayWeather.value = getCurrentDay(it)
                 }, {
                     Log.d("MainViewModel", it.message.toString())
                 })

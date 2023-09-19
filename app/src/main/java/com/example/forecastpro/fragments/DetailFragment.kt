@@ -1,45 +1,67 @@
 package com.example.forecastpro.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import com.example.forecastpro.MainViewModel
 import com.example.forecastpro.R
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.forecastpro.adapters.DaysAdapter
+import com.example.forecastpro.adapters.HoursAdapter
+import com.example.forecastpro.databinding.FragmentDaysBinding
+import com.example.forecastpro.databinding.FragmentDetailBinding
+import com.example.forecastpro.pojo.Forecastday
+import com.example.forecastpro.pojo.Hour
 
 
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val viewModel: MainViewModel by activityViewModels()
+    private lateinit var binding: FragmentDetailBinding
+    private lateinit var hoursAdapter: HoursAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+    ): View {
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        hoursAdapter = HoursAdapter()
+
+        viewModel.objForAddition.observe(viewLifecycleOwner) {
+            val list = it.hour
+            hoursAdapter.submitList(list)
+
+            binding.dayName.text = it.getDayOfWeek()
+            binding.monthDay.text = it.formatMonthAndDay()
+            binding.sunrise.text = it.astro.sunrise
+            binding.sunset.text = it.astro.sunset
+
+        }
+        binding.detailRecyclerView.adapter = hoursAdapter
+        attachRecyclerView()
+        binding.buttonToBack.setOnClickListener {
+            fragmentManager?.beginTransaction()
+                ?.remove(this)
+                ?.replace(R.id.container, MainFragment.newInstance())
+                ?.commit()
+
+        }
+    }
+
+    private fun attachRecyclerView() {
+
+    }
+
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() = DetailFragment()
     }
 }

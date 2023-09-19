@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
-import com.example.forecastpro.fragments.DaysFragment
 import com.example.forecastpro.pojo.Forecastday
 import com.squareup.picasso.Picasso
 
 class DaysAdapter(
-    private val listener: DaysFragment,
+    private val listener: OnItemClickListener,
     private val context: Context,
 
     ) : ListAdapter<Forecastday, DaysAdapter.ViewHolder>(Comparator()) {
@@ -25,32 +25,16 @@ class DaysAdapter(
             val maxMinTempString = context.getString(R.string.maxMinTemp)
             dayName.text = day.getDayOfWeek()
             dateDay.text = day.formatMonthAndDay()
-            if (day.day.maxtempC.toInt() > 0 && day.day.mintempC.toInt() > 0) {
-                temperature.text = String.format(
-                    "+%s°/+%s°",
-                    day.day.maxtempC.toInt(),
-                    day.day.mintempC.toInt()
-                )
-            } else if (day.day.maxtempC.toInt() > 0 && day.day.mintempC.toInt() < 0) {
-                temperature.text = String.format(
-                    "+%s°/-%s°",
-                    day.day.maxtempC.toInt(),
-                    day.day.mintempC.toInt()
-                )
-            } else if (day.day.maxtempC.toInt() < 0 && day.day.mintempC.toInt() > 0) {
-                temperature.text = String.format(
-                    "-%s°/+%s°",
-                    day.day.maxtempC.toInt(),
-                    day.day.mintempC.toInt()
-                )
-            } else if (day.day.maxtempC.toInt() < 0 && day.day.mintempC.toInt() < 0) {
-                temperature.text = String.format(
-                    "-%s°/-%s°",
-                    day.day.maxtempC.toInt(),
-                    day.day.mintempC.toInt()
-                )
-            }
+            val maxTemp = day.day.maxtempC.toInt()
+            val minTemp = day.day.mintempC.toInt()
 
+            val maxTempSymbol = if (maxTemp > 0) "+" else ""
+            val minTempSymbol = if (minTemp > 0) "+" else ""
+
+            temperature.text = when {
+                maxTemp >= 0 && minTemp >= 0 -> String.format("%s%s°/%s%s°", maxTempSymbol, maxTemp, minTempSymbol, minTemp)
+                else -> String.format("%s%s°/%s%s°", maxTemp, minTemp)
+            }
             Picasso.get().load("https:${day.day.condition.icon}").into(icon)
         }
     }
