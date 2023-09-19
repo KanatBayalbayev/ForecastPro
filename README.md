@@ -1,3 +1,6 @@
+![image](https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/c1b8e044-89df-4775-b41d-4dd48b56ab4d)
+![image](https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/85426a6f-96b4-4817-b7d3-b53870e7df11)
+
 "ForecastPro" - это приложение для отображения текущей погоды, прогноза погоды на три дня и прогноза погоды по часам. Оно написано на языке Kotlin и использует современные технологии, такие как ViewModel, RxJava2, Retrofit и фрагменты для эффективного управления данными и пользовательским интерфейсом.
 
 Ключевые функции приложения "ForecastPro":
