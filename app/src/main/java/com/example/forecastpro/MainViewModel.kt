@@ -13,6 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class MainViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
@@ -27,10 +28,6 @@ class MainViewModel : ViewModel() {
 
     val objForAddition = MutableLiveData<Forecastday>()
 
-
-    init {
-        loadData("Almaty")
-    }
 
     fun loadData(geo: String?) {
         val disposable = geo?.let { it ->

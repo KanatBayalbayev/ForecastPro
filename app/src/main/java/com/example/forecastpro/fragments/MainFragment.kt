@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
 
+var userInput: String = ""
 
 class MainFragment : Fragment() {
     private lateinit var fLocationClient: FusedLocationProviderClient
@@ -109,8 +110,6 @@ class MainFragment : Fragment() {
                 binding.mainContainer.visibility = View.VISIBLE
             }
         }
-
-
     }
 
     private fun showSearchDialog() {
@@ -118,15 +117,13 @@ class MainFragment : Fragment() {
         val editText = EditText(context)
         val dialog = builder.create()
         dialog.setView(editText)
-        dialog.setTitle("City:")
+        dialog.setTitle("Enter your city:")
         dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Search") { _, _ ->
-            val userInput = editText.text.toString().trim()
+            userInput = editText.text.toString().trim()
             viewModel.loadData(userInput)
             binding.syncButton.setOnClickListener {
                 viewModel.loadData(userInput)
             }
-
-
         }
         dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { _, _ ->
             dialog.dismiss()
@@ -151,7 +148,11 @@ class MainFragment : Fragment() {
             .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, ct.token)
             .addOnCompleteListener {
                 geoCity = "${it.result.latitude},${it.result.longitude}"
-                viewModel.loadData(geoCity)
+                if(userInput != "") {
+                    viewModel.loadData(userInput)
+                } else {
+                    viewModel.loadData(geoCity)
+                }
                 binding.syncButton.setOnClickListener {
                     viewModel.loadData(geoCity)
                 }
