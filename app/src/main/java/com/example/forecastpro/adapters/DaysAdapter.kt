@@ -28,8 +28,8 @@ class DaysAdapter(
             val maxTemp = day.day.maxtempC.toInt()
             val minTemp = day.day.mintempC.toInt()
 
-            val maxTempSymbol = if (maxTemp > 0) "+" else ""
-            val minTempSymbol = if (minTemp > 0) "+" else ""
+            val maxTempSymbol = if (maxTemp > 0) "+" else "-"
+            val minTempSymbol = if (minTemp > 0) "+" else "-"
 
             temperature.text = when {
                 maxTemp >= 0 && minTemp >= 0 -> String.format("%s%s°/%s%s°", maxTempSymbol, maxTemp, minTempSymbol, minTemp)
