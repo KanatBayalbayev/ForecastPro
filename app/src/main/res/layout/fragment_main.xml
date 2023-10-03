@@ -191,15 +191,6 @@
                 android:textSize="18sp"
                  />
 
-            <View
-                android:id="@+id/overlayView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#80000000"
-                android:clickable="false"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
             <ImageView
                 android:contentDescription="@string/windicon"
                 android:layout_marginStart="5dp"
@@ -335,6 +326,14 @@
             />
 
     </LinearLayout>
+    <View
+        android:id="@+id/overlayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="false"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/dialog_search_city"
@@ -352,7 +351,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
     <ImageView
         android:id="@+id/buttonToCloseDialog"
@@ -386,19 +385,20 @@
             android:background="@drawable/rounded_background_edit_text"
             android:hint="@string/type_user_email"
             android:inputType="textEmailAddress"
-            android:padding="8dp" />
+            android:padding="12dp" />
         <ImageView
             android:id="@+id/searchCity"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="6dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/buttontofindusers"
             android:src="@android:drawable/ic_search_category_default"
             app:tint="#2b599c" />
     </LinearLayout>
 
     </LinearLayout>
+
 
 <ImageView
     android:id="@+id/weatherDialogIcon"
