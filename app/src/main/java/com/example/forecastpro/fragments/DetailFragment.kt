@@ -32,7 +32,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hoursAdapter = HoursAdapter()
+        hoursAdapter = HoursAdapter(requireContext())
 
         viewModel.objForAddition.observe(viewLifecycleOwner) {
             val list = it.hour

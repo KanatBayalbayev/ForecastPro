@@ -36,7 +36,7 @@ class HoursFragment : Fragment() {
 
 
     private fun attachRecyclerView(){
-        hoursAdapter = HoursAdapter()
+        hoursAdapter = HoursAdapter(requireContext())
         binding.recyclerView.adapter = hoursAdapter
         viewModel.currentDayWeather.observe(viewLifecycleOwner){
             val list = it.listOfHours

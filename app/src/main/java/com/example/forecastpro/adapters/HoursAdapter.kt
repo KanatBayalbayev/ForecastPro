@@ -1,5 +1,6 @@
 package com.example.forecastpro.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,19 @@ import com.example.forecastpro.databinding.HourWeatherBinding
 import com.example.forecastpro.pojo.Hour
 import com.squareup.picasso.Picasso
 
-class HoursAdapter : ListAdapter<Hour, HoursAdapter.ViewHolder>(Comparator()) {
+class HoursAdapter(private val context: Context) : ListAdapter<Hour, HoursAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = HourWeatherBinding.bind(view)
-        fun bind(hour: Hour) = with(binding) {
+        fun bind(hour: Hour, context: Context) = with(binding) {
+            val today = context.getString(R.string.today)
+            val currentDate = hour.getCurrentDate()
             hourName.text = hour.getHours()
-            dateDay.text = hour.getDateFromDateTime()
+            if (currentDate == hour.getDateFromDateTime()) {
+                dateDay.text = today
+            } else {
+                dateDay.text = hour.getDateFromDateTime()
+            }
             temperature.text = String.format(
                 "%s%s°",
                 if (hour.tempC.toInt() > 0) "+" else "-",
@@ -49,6 +56,6 @@ class HoursAdapter : ListAdapter<Hour, HoursAdapter.ViewHolder>(Comparator()) {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), context)
     }
 }

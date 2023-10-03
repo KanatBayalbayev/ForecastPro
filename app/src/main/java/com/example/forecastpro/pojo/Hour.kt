@@ -4,6 +4,8 @@ package com.example.forecastpro.pojo
 import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 data class Hour(
@@ -118,5 +120,11 @@ data class Hour(
     fun getHours(): String {
         val parts = time.split(" ")
         return parts.getOrNull(1).toString()
+    }
+
+    fun getCurrentDate(): String {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("MMM, dd", Locale.ENGLISH)
+        return currentDate.format(formatter)
     }
 }
