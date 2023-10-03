@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fontFamily="serif"
     android:background="@drawable/background_image"
     tools:context=".fragments.MainFragment">
 
@@ -18,17 +19,18 @@
             android:id="@+id/lastUpdateDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="14dp"
             android:text="@string/lastUpdate"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/syncButton"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Updated: Sep 12, 11:36" />
 
         <TextView
             android:id="@+id/city"
+            android:fontFamily="serif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -43,6 +45,7 @@
 
         <TextView
             android:id="@+id/condition"
+            android:fontFamily="serif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -107,12 +110,12 @@
             android:id="@+id/syncButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="22dp"
             android:layout_marginTop="10dp"
             android:background="@null"
             android:contentDescription="@string/syncbutton"
             android:src="@android:drawable/ic_popup_sync"
-            app:layout_constraintStart_toEndOf="@+id/lastUpdateDate"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@android:color/darker_gray" />
 
@@ -144,6 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temp"
+                android:fontFamily="serif"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="18sp" />
             <ImageView
@@ -182,6 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/wind"
+                android:fontFamily="serif"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="18sp"
                  />
@@ -211,7 +216,7 @@
         <LinearLayout
             android:id="@+id/humidityLabel"
             android:gravity="center"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="35dp"
             android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iconWeather"
@@ -221,6 +226,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/humidity"
+                android:fontFamily="serif"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="18sp"
                 />
@@ -229,7 +235,7 @@
                 android:src="@drawable/droplet"
                 android:layout_marginStart="4dp"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 app:tint="@android:color/darker_gray" />
 
         </LinearLayout>
@@ -239,7 +245,7 @@
             android:id="@+id/humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="11dp"
             android:text="@string/humidityPercent"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -262,11 +268,13 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="serif"
                 android:text="@string/days" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="serif"
                 android:text="@string/hours" />
 
         </com.google.android.material.tabs.TabLayout>
@@ -296,11 +304,19 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:fontFamily="serif"
             android:text="@string/forecastpro"
             android:textSize="30sp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <ImageView
+            android:contentDescription="@string/iconwelcome"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/clouds_and_sun"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:tint="@color/white" />
 
         <ProgressBar
             android:layout_marginStart="10dp"
@@ -309,6 +325,95 @@
             />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/overlayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="false"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/dialog_search_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/rounded_background_alert_dialog"
+        android:orientation="vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+    <ImageView
+        android:id="@+id/buttonToCloseDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="270dp"
+        android:paddingTop="8dp"
+        android:src="@android:drawable/ic_delete" />
+
+    <TextView
+        android:fontFamily="serif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/enter_your_city"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/inputSearchCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints="name"
+            android:background="@drawable/rounded_background_edit_text"
+            android:hint="@string/type_user_email"
+            android:inputType="textEmailAddress"
+            android:padding="8dp" />
+        <ImageView
+            android:id="@+id/searchCity"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@string/buttontofindusers"
+            android:src="@android:drawable/ic_search_category_default"
+            app:tint="#2b599c" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+<ImageView
+    android:id="@+id/weatherDialogIcon"
+    android:contentDescription="@string/iconWeatherDialog"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginBottom="130dp"
+    android:src="@drawable/weather"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:layout_width="60dp"
+    android:layout_height="60dp"/>
+
+
+
+
+
 
 
 

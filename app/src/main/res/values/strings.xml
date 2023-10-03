@@ -11,7 +11,7 @@
     <string name="days">DAYS</string>
     <string name="hours">HOURS</string>
     <string name="signPlus">+</string>
-    <string name="lastUpdate">Updated: %s</string>
+    <string name="lastUpdate">%s</string>
     <string name="currentTemperature">%s°</string>
     <string name="maxMin">%s°/%s°</string>
     <string name="windKm">%skm/h</string>
@@ -24,4 +24,11 @@
     <string name="windicon">windIcon</string>
     <string name="forecastpro">ForecastPro</string>
     <string name="humidityicon">humidityIcon</string>
+    <string name="type_user_email">Type your city…</string>
+    <string name="buttontofindusers">btnToFindCity</string>
+    <string name="iconweatherdialog">iconWeatherDialog</string>
+    <string name="iconWeatherDialog">iconWeatherDialog</string>
+    <string name="enter_your_city">Get the weather forecast for your city</string>
+    <string name="iconwelcome">iconWelcome</string>
+    <string name="today">Today</string>
 </resources>

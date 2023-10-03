@@ -12,6 +12,9 @@ import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
 import com.example.forecastpro.pojo.Forecastday
 import com.squareup.picasso.Picasso
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class DaysAdapter(
     private val listener: OnItemClickListener,
@@ -22,9 +25,15 @@ class DaysAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = DayWeatherBinding.bind(view)
         fun bind(day: Forecastday, context: Context) = with(binding) {
-            val maxMinTempString = context.getString(R.string.maxMinTemp)
+            val today = context.getString(R.string.today)
+            val formattedDate = day.getFormattedDate()
+            if (formattedDate == day.formatMonthAndDay()) {
+                dateDay.text = today
+            } else {
+                dateDay.text = day.formatMonthAndDay()
+            }
             dayName.text = day.getDayOfWeek()
-            dateDay.text = day.formatMonthAndDay()
+//            dateDay.text = day.formatMonthAndDay()
             val maxTemp = day.day.maxtempC.toInt()
             val minTemp = day.day.mintempC.toInt()
 
@@ -66,4 +75,6 @@ class DaysAdapter(
             listener.onItemClick(item)
         }
     }
+
+
 }

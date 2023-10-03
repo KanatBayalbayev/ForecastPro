@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
         HoursFragment.newInstance()
     )
     private val listOfTabs = listOf(
-        "DAYS",
+        "3 DAYS FORECAST",
         "HOURS"
     )
 
@@ -101,6 +101,12 @@ class MainFragment : Fragment() {
             showSearchDialog()
         }
 
+        binding.buttonToCloseDialog.setOnClickListener {
+            binding.overlayView.visibility = View.GONE
+            binding.dialogSearchCity.visibility = View.GONE
+            binding.weatherDialogIcon.visibility = View.GONE
+        }
+
         viewModel.isProgressBar.observe(viewLifecycleOwner){
             if (it) {
                 binding.progressBar.visibility = View.VISIBLE
@@ -113,22 +119,52 @@ class MainFragment : Fragment() {
     }
 
     private fun showSearchDialog() {
-        val builder = AlertDialog.Builder(context)
-        val editText = EditText(context)
-        val dialog = builder.create()
-        dialog.setView(editText)
-        dialog.setTitle("Enter your city:")
-        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Search") { _, _ ->
-            userInput = editText.text.toString().trim()
-            viewModel.loadData(userInput)
-            binding.syncButton.setOnClickListener {
-                viewModel.loadData(userInput)
+        binding.dialogSearchCity.visibility = View.VISIBLE
+        binding.overlayView.visibility = View.VISIBLE
+        binding.weatherDialogIcon.visibility = View.VISIBLE
+        binding.overlayView.isClickable = true
+        binding.searchCity.setOnClickListener {
+            val city = binding.inputSearchCity.text.toString().trim()
+            if (city.isEmpty()) {
+                Toast.makeText(requireContext(), "Enter your city!", Toast.LENGTH_LONG).show()
+            } else {
+                viewModel.loadData(city)
+                binding.syncButton.setOnClickListener {
+                    viewModel.loadData(userInput)
+                }
             }
+            binding.inputSearchCity.setText("")
+            binding.dialogSearchCity.visibility = View.GONE
+            binding.weatherDialogIcon.visibility = View.GONE
+            binding.overlayView.visibility = View.GONE
         }
-        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { _, _ ->
-            dialog.dismiss()
-        }
-        dialog.show()
+
+
+
+
+
+
+
+
+
+
+
+//        val builder = AlertDialog.Builder(context)
+//        val editText = EditText(context)
+//        val dialog = builder.create()
+//        dialog.setView(editText)
+//        dialog.setTitle("Enter your city:")
+//        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Search") { _, _ ->
+//            userInput = editText.text.toString().trim()
+//            viewModel.loadData(userInput)
+//            binding.syncButton.setOnClickListener {
+//                viewModel.loadData(userInput)
+//            }
+//        }
+//        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { _, _ ->
+//            dialog.dismiss()
+//        }
+//        dialog.show()
     }
 
 

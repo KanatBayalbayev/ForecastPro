@@ -109,7 +109,7 @@ data class Hour(
 ) {
     fun getDateFromDateTime(): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)
-        val outputFormat = SimpleDateFormat("MMM dd", Locale.US)
+        val outputFormat = SimpleDateFormat("MMM, dd", Locale.US)
         val dateRes = inputFormat.parse(time)
 
 

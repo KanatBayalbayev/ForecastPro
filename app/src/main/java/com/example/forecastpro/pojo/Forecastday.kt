@@ -53,4 +53,10 @@ data class Forecastday(
         val day = parts.getOrNull(1).toString()
         return "$month $day"
     }
+
+     fun getFormattedDate(): String {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("MMM, dd", Locale.ENGLISH)
+        return currentDate.format(formatter)
+    }
 }
