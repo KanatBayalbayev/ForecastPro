@@ -190,6 +190,16 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="18sp"
                  />
+
+            <View
+                android:id="@+id/overlayView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:clickable="false"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <ImageView
                 android:contentDescription="@string/windicon"
                 android:layout_marginStart="5dp"
@@ -217,7 +227,7 @@
             android:id="@+id/humidityLabel"
             android:gravity="center"
             android:layout_marginTop="35dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iconWeather"
             android:layout_width="wrap_content"
@@ -233,7 +243,7 @@
             <ImageView
                 android:contentDescription="@string/humidityicon"
                 android:src="@drawable/droplet"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="1dp"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 app:tint="@android:color/darker_gray" />
@@ -326,15 +336,6 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/overlayView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        android:clickable="false"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
     <LinearLayout
         android:id="@+id/dialog_search_city"
         android:layout_width="wrap_content"
@@ -351,13 +352,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
     <ImageView
         android:id="@+id/buttonToCloseDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
+        android:layout_marginStart="290dp"
         android:paddingTop="8dp"
         android:src="@android:drawable/ic_delete" />
 
@@ -365,7 +366,8 @@
         android:fontFamily="serif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/enter_your_city"
         android:textSize="18sp" />
 
@@ -380,6 +382,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:autofillHints="name"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_background_edit_text"
             android:hint="@string/type_user_email"
             android:inputType="textEmailAddress"
@@ -389,6 +392,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="6dp"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/buttontofindusers"
             android:src="@android:drawable/ic_search_category_default"
             app:tint="#2b599c" />
@@ -403,12 +407,12 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    android:layout_marginBottom="130dp"
+    android:layout_marginBottom="185dp"
     android:src="@drawable/weather"
     android:visibility="gone"
     tools:visibility="visible"
-    android:layout_width="60dp"
-    android:layout_height="60dp"/>
+    android:layout_width="70dp"
+    android:layout_height="70dp"/>
 
 
 
