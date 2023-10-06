@@ -31,4 +31,17 @@
     <string name="enter_your_city">Get the weather forecast for your city</string>
     <string name="iconwelcome">iconWelcome</string>
     <string name="today">Today</string>
+    <string name="first_desc">Welcome to ForecastPro</string>
+    <string name="second_desc">Stay updated on weather changes to always plan your activities accordingly</string>
+    <string name="third_desc">We provide the most accurate weather information based on reliable sources</string>
+    <string name="forth_desc">Our simple and intuitive interface makes our app easy to use</string>
+    <string name="welcome_to_forecastpro">Welcome to ForecastPro</string>
+    <string name="getStartedSecondText">Let\'s get started!</string>
+    <string name="getStartedThirdText">To provide an accurate weather forecast, please grant access to your location</string>
+    <string name="weatherIn">Weather in…</string>
+    <string name="grant_access">Provide Current Location</string>
+    <string name="getStartedForthText">To give you an accurate weather forecast, please provide the city name</string>
+    <string name="mainlogo">mainLogo</string>
+    <string name="get_started">Get Started</string>
+    <string name="textWarning">Для предоставления точного прогноза погоды, мы нуждаемся в доступе к вашему текущему местоположению. Это позволит нам обеспечить вам наиболее точную и актуальную информацию о погоде в вашем регионе. Пожалуйста, разрешите доступ к вашему местоположению, нажав \'Разрешить\'. Мы обеспечиваем абсолютную конфиденциальность и безопасность ваших данных.</string>
 </resources>

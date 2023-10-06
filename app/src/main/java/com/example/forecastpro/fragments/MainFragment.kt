@@ -1,7 +1,8 @@
 package com.example.forecastpro.fragments
 
 import android.Manifest
-import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -9,23 +10,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.forecastpro.MainViewModel
-import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.R
 import com.example.forecastpro.adapters.ViewPageAdapter
-import com.example.forecastpro.adapters.DaysAdapter
 import com.example.forecastpro.databinding.FragmentMainBinding
-import com.example.forecastpro.pojo.Forecastday
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -38,6 +33,7 @@ class MainFragment : Fragment() {
     private lateinit var fLocationClient: FusedLocationProviderClient
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var geoCity: String
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val listOfFragments = listOf(
         DaysFragment.newInstance(),
@@ -62,21 +58,56 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkPermission()
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        geoCity = getSavedCityFromSharedPreferences(sharedPreferences).toString()
+        if (geoCity.isEmpty()){
+            binding.dialogSearchCity.visibility = View.VISIBLE
+            binding.weatherDialogIcon.visibility = View.VISIBLE
+            binding.buttonToCloseDialog.visibility = View.GONE
+            binding.searchCity.setOnClickListener {
+                val userInput = binding.inputSearchCity.text.toString().trim()
+                if (userInput.isEmpty()){
+                    Toast.makeText(
+                        requireContext(),
+                        "Enter your location!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    saveCityToSharedPreferences(sharedPreferences, userInput)
+                    binding.dialogSearchCity.visibility = View.GONE
+                    binding.weatherDialogIcon.visibility = View.GONE
+                    binding.mainContainer.visibility = View.VISIBLE
+                    viewModel.loadData(userInput)
+
+                }
+
+            }
+        } else {
+            viewModel.loadData(geoCity)
+        }
+        binding.syncButton.setOnClickListener {
+            viewModel.loadData(geoCity)
+        }
         attachAdapterToViewPager()
         observeWeather()
-        fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        getLocation()
-
-
     }
+
+    private fun saveCityToSharedPreferences(sharedPreferences: SharedPreferences, cityName: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString("city", cityName)
+        editor.apply()
+    }
+
+    private fun getSavedCityFromSharedPreferences(sharedPreferences: SharedPreferences): String? {
+        return sharedPreferences.getString("city", "")
+    }
+
 
     private fun observeWeather() {
         viewModel.currentDayWeather.observe(viewLifecycleOwner) {
             with(binding) {
                 val lastUpdateString = getString(R.string.lastUpdate)
                 val currentTemperatureString = getString(R.string.currentTemperature)
-                val maxMinString = getString(R.string.maxMin)
                 val windKmString = getString(R.string.windKm)
                 val humidityPercentString = getString(R.string.humidityPercent)
                 lastUpdateDate.text = String.format(lastUpdateString, it.date)
@@ -107,7 +138,7 @@ class MainFragment : Fragment() {
             binding.weatherDialogIcon.visibility = View.GONE
         }
 
-        viewModel.isProgressBar.observe(viewLifecycleOwner){
+        viewModel.isProgressBar.observe(viewLifecycleOwner) {
             if (it) {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.mainContainer.visibility = View.GONE
@@ -120,17 +151,19 @@ class MainFragment : Fragment() {
 
     private fun showSearchDialog() {
         binding.dialogSearchCity.visibility = View.VISIBLE
+        binding.buttonToCloseDialog.visibility = View.VISIBLE
         binding.overlayView.visibility = View.VISIBLE
         binding.weatherDialogIcon.visibility = View.VISIBLE
         binding.overlayView.isClickable = true
         binding.searchCity.setOnClickListener {
-            val city = binding.inputSearchCity.text.toString().trim()
-            if (city.isEmpty()) {
+            geoCity = binding.inputSearchCity.text.toString().trim()
+            if (geoCity.isEmpty()) {
                 Toast.makeText(requireContext(), "Enter your city!", Toast.LENGTH_LONG).show()
             } else {
-                viewModel.loadData(city)
+                saveCityToSharedPreferences(sharedPreferences, geoCity)
+                viewModel.loadData(geoCity)
                 binding.syncButton.setOnClickListener {
-                    viewModel.loadData(userInput)
+                    viewModel.loadData(geoCity)
                 }
             }
             binding.inputSearchCity.setText("")
@@ -138,33 +171,6 @@ class MainFragment : Fragment() {
             binding.weatherDialogIcon.visibility = View.GONE
             binding.overlayView.visibility = View.GONE
         }
-
-
-
-
-
-
-
-
-
-
-
-//        val builder = AlertDialog.Builder(context)
-//        val editText = EditText(context)
-//        val dialog = builder.create()
-//        dialog.setView(editText)
-//        dialog.setTitle("Enter your city:")
-//        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Search") { _, _ ->
-//            userInput = editText.text.toString().trim()
-//            viewModel.loadData(userInput)
-//            binding.syncButton.setOnClickListener {
-//                viewModel.loadData(userInput)
-//            }
-//        }
-//        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { _, _ ->
-//            dialog.dismiss()
-//        }
-//        dialog.show()
     }
 
 
@@ -180,20 +186,22 @@ class MainFragment : Fragment() {
         ) {
             return
         }
+        fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fLocationClient
             .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, ct.token)
             .addOnCompleteListener {
-                geoCity = "${it.result.latitude},${it.result.longitude}"
-                if(userInput != "") {
-                    viewModel.loadData(userInput)
-                } else {
-                    viewModel.loadData(geoCity)
-                }
+                val geoCity = "${it.result.latitude},${it.result.longitude}"
+                viewModel.loadData(geoCity)
+
+                Log.d("CheckGeo", geoCity)
+
+
                 binding.syncButton.setOnClickListener {
                     viewModel.loadData(geoCity)
                 }
             }
     }
+
 
     private fun attachAdapterToViewPager() {
         val adapter = ViewPageAdapter(activity as FragmentActivity, listOfFragments)
@@ -205,7 +213,14 @@ class MainFragment : Fragment() {
 
     private fun permissionListener() {
         pLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            Toast.makeText(activity, "Permission is $it", Toast.LENGTH_SHORT).show()
+            if (it) {
+                Toast.makeText(activity, "Доступ к местоположению получен!", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(activity, "Доступ к местоположению не получен!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
         }
     }
 
@@ -218,10 +233,11 @@ class MainFragment : Fragment() {
 
 
     companion object {
+
+
         @JvmStatic
         fun newInstance() = MainFragment()
     }
-
 
 
 }
