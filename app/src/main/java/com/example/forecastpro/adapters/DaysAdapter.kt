@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieCompositionFactory
 import com.example.forecastpro.OnItemClickListener
 import com.example.forecastpro.R
 import com.example.forecastpro.databinding.DayWeatherBinding
@@ -44,6 +45,7 @@ class DaysAdapter(
                 maxTemp >= 0 && minTemp >= 0 -> String.format("%s%s°/%s%s°", maxTempSymbol, maxTemp, minTempSymbol, minTemp)
                 else -> String.format("%s%s°/%s%s°", maxTemp, minTemp)
             }
+
             Picasso.get().load("https:${day.day.condition.icon}").into(icon)
         }
     }

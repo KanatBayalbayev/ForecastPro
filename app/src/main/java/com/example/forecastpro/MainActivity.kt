@@ -3,6 +3,7 @@ package com.example.forecastpro
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.forecastpro.fragments.MainFragment
+import com.example.forecastpro.fragments.WelcomeFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 
 class MainActivity : AppCompatActivity() {

@@ -32,6 +32,8 @@ class HoursAdapter(private val context: Context) : ListAdapter<Hour, HoursAdapte
             )
             Picasso.get().load("https:${hour.condition.icon}").into(icon)
 
+
+
         }
     }
 
