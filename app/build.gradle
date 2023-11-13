@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.forecastpro'
+    namespace 'com.kweather.forecastpro'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.forecastpro"
+        applicationId "com.kweather.forecastpro"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -23,6 +23,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -34,6 +35,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 
 }
 
