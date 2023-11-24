@@ -1,5 +1,6 @@
-<img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/1ad0d393-28bf-4b4b-b8f2-4715de4b004d" width="310" height="700"><img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/8284b860-43f8-4d6a-9c07-e5c8b29a1bd9" width="310" height="700">
+<img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/c82d7fa5-89d7-4a25-a6e0-b6de7303928e" width="310" height="700"><img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/1ad0d393-28bf-4b4b-b8f2-4715de4b004d" width="310" height="700"><img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/8284b860-43f8-4d6a-9c07-e5c8b29a1bd9" width="310" height="700">
 <img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/03c9bf0c-8ab3-4849-99b1-d2ee008c71b6" width="310" height="700"> <img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/0aad9508-bed9-4f8d-9242-e05736a75700" width="310" height="700">
+
 
 https://play.google.com/store/apps/details?id=com.kweather.forecastpro&hl=en-US&ah=Ousj7PGgcio5he80ywrMTbRdb08
 
