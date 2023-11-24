@@ -44,4 +44,9 @@
     <string name="mainlogo">mainLogo</string>
     <string name="get_started">Get Started</string>
     <string name="textWarning">Для предоставления точного прогноза погоды, мы нуждаемся в доступе к вашему текущему местоположению. Это позволит нам обеспечить вам наиболее точную и актуальную информацию о погоде в вашем регионе. Пожалуйста, разрешите доступ к вашему местоположению, нажав \'Разрешить\'. Мы обеспечиваем абсолютную конфиденциальность и безопасность ваших данных.</string>
+    <string name="buttontoback">buttonToBack</string>
+    <string name="welcomeText">Welcome to ForecastPro</string>
+    <string name="instructions">⚡ Easily create new notes by entering text in the designated input field.\n⚡ Get rid of unnecessary entries with a left or right swipe on the note item.\n⚡ Edit notes with a simple tap. Open the editing mode to make changes.\n⚡ Mark notes as completed with a long press on the item.</string>
+    <string name="desc">Weather forecast for 3 days and hourly forecast for a specific city. Easily discover maximum and minimum temperatures, humidity percentage, and wind speed</string>
+
 </resources>

@@ -30,7 +30,6 @@ class DaysAdapter(
                 dateDay.text = day.formatMonthAndDay()
             }
             dayName.text = day.getDayOfWeek()
-//            dateDay.text = day.formatMonthAndDay()
             val maxTemp = day.day.maxtempC.toInt()
             val minTemp = day.day.mintempC.toInt()
 
@@ -39,7 +38,7 @@ class DaysAdapter(
 
             temperature.text = when {
                 maxTemp >= 0 && minTemp >= 0 -> String.format("%s%s°/%s%s°", maxTempSymbol, maxTemp, minTempSymbol, minTemp)
-                else -> String.format("%s%s°/%s°", maxTempSymbol, maxTemp, minTemp)
+                else -> String.format("%s°/%s°", maxTemp, minTemp)
             }
 
             Picasso.get().load("https:${day.day.condition.icon}").into(icon)

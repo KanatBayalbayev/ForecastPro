@@ -2,6 +2,7 @@ package com.kweather.forecastpro.fragments
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -23,8 +24,10 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kweather.forecastpro.MainActivity
 import com.kweather.forecastpro.R
 import com.kweather.forecastpro.databinding.FragmentMainBinding
+import com.kweather.forecastpro.pojo.WelcomeActivity
 import com.squareup.picasso.Picasso
 
 var userInput: String = ""
@@ -92,6 +95,8 @@ class MainFragment : Fragment() {
         observeWeather()
     }
 
+
+
     private fun saveCityToSharedPreferences(sharedPreferences: SharedPreferences, cityName: String) {
         val editor = sharedPreferences.edit()
         editor.putString("city", cityName)
@@ -112,16 +117,29 @@ class MainFragment : Fragment() {
                 val humidityPercentString = getString(R.string.humidityPercent)
                 lastUpdateDate.text = String.format(lastUpdateString, it.date)
                 signPlus.visibility = if (it.currentTemperature > 0) View.VISIBLE else View.GONE
-                signMinus.visibility = if (it.currentTemperature > 0) View.GONE else View.VISIBLE
                 currentTemperature.text =
                     String.format(currentTemperatureString, it.currentTemperature)
+
                 city.text = it.cityName
                 condition.text = it.condition
                 Picasso.get().load("https:${it.icon}").into(iconWeather)
-                val maxSign = if (it.maxTemp > 0) "+" else "-"
-                val minSign = if (it.minTemp > 0) "+" else "-"
+                val maxSign = if (it.maxTemp > 0) {
+                    "+"
+                } else if (it.maxTemp < 0) {
+                    "-"
+                } else {
+                    ""
+                }
+                val minSign = if (it.minTemp > 0) {
+                    "+"
+                } else if (it.minTemp < 0) {
+                    ""
+                } else {
+                    ""
+                }
+
                 maxMinTemp.text =
-                    String.format("%s%s°/%s%s°", maxSign, it.maxTemp, minSign, it.minTemp)
+                    String.format("%s%s°/%s%s°", maxSign, it.maxTemp,minSign, it.minTemp)
                 wind.text = String.format(windKmString, it.wind)
                 humidity.text = String.format(humidityPercentString, it.humidity)
             }

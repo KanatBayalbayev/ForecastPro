@@ -19,17 +19,26 @@ class HoursAdapter(private val context: Context) : ListAdapter<Hour, HoursAdapte
         fun bind(hour: Hour, context: Context) = with(binding) {
             val today = context.getString(R.string.today)
             val currentDate = hour.getCurrentDate()
+            val hourTemp = hour.tempC.toInt()
+            val tempSymbol = if (hourTemp >= 0) "+" else "-"
+            val maxSign = if (hourTemp > 0) {
+                "+"
+            } else if (hourTemp < 0) {
+                "-"
+            } else {
+                ""
+            }
             hourName.text = hour.getHours()
             if (currentDate == hour.getDateFromDateTime()) {
                 dateDay.text = today
             } else {
                 dateDay.text = hour.getDateFromDateTime()
             }
-            temperature.text = String.format(
-                "%s%s°",
-                if (hour.tempC.toInt() > 0) "+" else "-",
-                hour.tempC.toInt()
-            )
+
+            temperature.text =  when {
+                hourTemp >= 0  -> String.format("%s%s°", maxSign, hourTemp)
+                else -> String.format("%s°", hourTemp)
+            }
             Picasso.get().load("https:${hour.condition.icon}").into(icon)
 
 
