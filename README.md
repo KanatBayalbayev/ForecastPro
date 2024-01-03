@@ -2,7 +2,6 @@
 <img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/03c9bf0c-8ab3-4849-99b1-d2ee008c71b6" width="310" height="700"> <img src="https://github.com/KanatBayalbayev/ForecastPro/assets/115481348/0aad9508-bed9-4f8d-9242-e05736a75700" width="310" height="700">
 
 
-https://play.google.com/store/apps/details?id=com.kweather.forecastpro&hl=en-US&ah=Ousj7PGgcio5he80ywrMTbRdb08
 
 
 "ForecastPro" - это приложение для отображения текущей погоды, прогноза погоды на три дня и прогноза погоды по часам. Оно написано на языке Kotlin и использует современные технологии, такие как ViewModel, RxJava2, Retrofit и фрагменты для эффективного управления данными и пользовательским интерфейсом.
